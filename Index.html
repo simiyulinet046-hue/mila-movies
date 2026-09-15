@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mila Movies 🎬</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0f19;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #111827;
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #273244;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffcc00;
+      white-space: nowrap;
+    }
+
+    .search-box {
+      display: flex;
+      width: 100%;
+      max-width: 550px;
+      gap: 8px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      background: #1f2937;
+      color: white;
+      font-size: 16px;
+    }
+
+    .search-box input::placeholder {
+      color: #9ca3af;
+    }
+
+    .search-box button {
+      padding: 13px 18px;
+      border: none;
+      border-radius: 10px;
+      background: #ffcc00;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 45px 25px;
+      text-align: center;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #172554, #312e81);
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: #d1d5db;
+      font-size: 17px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 10px 20px 40px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin: 20px 0;
+    }
+
+    #status {
+      text-align: center;
+      padding: 20px;
+      color: #9ca3af;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .movie-card {
+      background: #111827;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #263244;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .movie-card:hover {
+      transform: translateY(-5px);
+      border-color: #ffcc00;
+    }
+
+    .poster {
+      width: 100%;
+      height: 270px;
+      object-fit: cover;
+      background: #1f2937;
+    }
+
+    .movie-info {
+      padding: 13px;
+    }
+
+    .movie-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    .movie-year {
+      color: #9ca3af;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .rating {
+      color: #ffcc00;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.4;
+      height: 55px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .watch-button {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: #ffcc00;
+      color: #111;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .watch-button:hover {
+      background: #ffe066;
+    }
+
+    #loadMore {
+      display: none;
+      margin: 30px auto;
+      padding: 13px 25px;
+      border: none;
+      border-radius: 10px;
+      background: #ffcc00;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 30px;
+      background: #111827;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .header-content {
+        flex-direction: column;
+      }
+
+      .logo {
+        font-size: 22px;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .poster {
+        height: 230px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-content">
+
+      <div class="logo">
+        🎬 Mila Movies
+      </div>
+
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search for a movie..."
+        >
+
+        <button onclick="searchMovies()">
+          Search
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+
+  <section class="hero">
+
+    <h1>
+      Welcome to Mila Movies 🎬
+    </h1>
+
+    <p>
+      Search for movies and discover information about them.
+    </p>
+
+  </section>
+
+
+  <main>
+
+    <h2 class="section-title">
+      Movies
+    </h2>
+
+    <div id="status">
+      Search for a movie to begin.
+    </div>
+
+    <div
+      id="movieGrid"
+      class="movie-grid">
+    </div>
+
+    <button
+      id="loadMore"
+      onclick="loadMoreMovies()">
+      Load More
+    </button>
+
+  </main>
+
+
+  <footer>
+
+    <p>
+      © 2026 Mila Movies
+    </p>
+
+    <br>
+
+    <p>
+      This product uses the TMDB API but is not endorsed or certified by TMDB.
+    </p>
+
+  </footer>
+
+
+<script>
+
+  /*
+  ==================================================
+  TMDB ACCESS TOKEN
+  ==================================================
+
+  Replace the text below with YOUR OWN TMDB
+  API Read Access Token.
+
+  Example:
+
+  const TMDB_TOKEN =
+  "eyJhbGciOiJIUzI1NiJ9....";
+
+  DO NOT SEND YOUR REAL TOKEN TO ANYONE.
+  ==================================================
+  */
+
+  const TMDB_TOKEN =
+    "PASTE_YOUR_TMDB_ACCESS_TOKEN_HERE"
+
+  
+  const API_URL =
+    "https://api.themoviedb.org/3/search/movie";
+
+
+  const IMAGE_URL =
+    "https://image.tmdb.org/t/p/w500";
+
+
+  let currentPage = 1;
+
+  let currentQuery = "";
+
+  let totalPages = 1;
+
+
+  /*
+  ==========================================
+  SEARCH MOVIES
+  ==========================================
+  */
+
+  async function searchMovies() {
+
+    const input =
+      document.getElementById("searchInput");
+
+    const query =
+      input.value.trim();
+
+
+    if (query === "") {
+
+      showStatus("Please type a movie name.");
+
+      return;
+
+    }
+
+
+    currentQuery = query;
+
+    currentPage = 1;
+
+
+    await getMovies(query, 1, false);
+
+  }
+
+
+  /*
+  ==========================================
+  GET MOVIES FROM TMDB
+  ==========================================
+  */
+
+  async function getMovies(
+    query,
+    page,
+    addMore
+  ) {
+
+    const grid =
+      document.getElementById("movieGrid");
+
+    const status =
+      document.getElementById("status");
+
+    const loadMore =
+      document.getElementById("loadMore");
+
+
+    if (!addMore) {
+
+      grid.innerHTML = "";
+
+    }
+
+
+    status.style.display = "block";
+
+    status.textContent =
+      "Searching for movies...";
+
+
+    loadMore.style.display = "none";
+
+
+    try {
+
+      const response =
+        await fetch(
+          API_URL +
+          "?query=" +
+          encodeURIComponent(query) +
+          "&page=" +
+          page +
+          "&include_adult=false",
+          {
+
+            method: "GET",
+
+            headers: {
+
+              "Authorization":
+                "Bearer " + TMDB_TOKEN,
+
+              "accept":
+                "application/json"
+
+            }
+
+          }
+        );
+
+
+      if (response.status === 401) {
+
+        throw new Error(
+          "TMDB token is missing or invalid."
+        );
+
+      }
+
+
+      if (response.status === 429) {
+
+        throw new Error(
+          "Too many requests. Please wait a moment."
+        );
+
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "TMDB server error: " +
+          response.status
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      totalPages =
+        data.total_pages || 1;
+
+
+      status.style.display = "none";
+
+
+      if (
+        !data.results ||
+        data.results.length === 0
+      ) {
+
+        if (!addMore) {
+
+          showStatus(
+            "No movie found. Try another name."
+          );
+
+        }
+
+        return;
+
+      }
+
+
+      data.results.forEach(
+        movie => {
+
+          createMovieCard(movie);
+
+        }
+      );
+
+
+      if (currentPage < totalPages) {
+
+        loadMore.style.display =
+          "block";
+
+      }
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+      showStatus(
+        "Error: " + error.message
+      );
+
+    }
+
+  }
+
+
+  /*
+  ==========================================
+  CREATE MOVIE CARD
+  ==========================================
+  */
+
+  function createMovieCard(movie) {
+
+    const grid =
+      document.getElementById("movieGrid");
+
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "movie-card";
+
+
+    const poster =
+      movie.poster_path
+        ? IMAGE_URL + movie.poster_path
+        : "https://via.placeholder.com/500x750?text=No+Poster";
+
+
+    const title =
+      movie.title || "Unknown title";
+
+
+    const year =
+      movie.release_date
+        ? movie.release_date.substring(0, 4)
+        : "Unknown";
+
+
+    const rating =
+      movie.vote_average
+        ? movie.vote_average.toFixed(1)
+        : "N/A";
+
+
+    const description =
+      movie.overview ||
+      "No description available.";
+
+
+    const watchSearch =
+      "https://www.google.com/search?q=" +
+      encodeURIComponent(
+        title + " " + year + " where to watch"
+      );
+
+
+    card.innerHTML = `
+
+      <img
+        class="poster"
+        src="${poster}"
+        alt="${escapeHTML(title)}"
+        loading="lazy"
+      >
+
+      <div class="movie-info">
+
+        <div class="movie-title">
+          ${escapeHTML(title)}
+        </div>
+
+        <div class="movie-year">
+          📅 ${year}
+        </div>
+
+        <div class="rating">
+          ⭐ ${rating}/10
+        </div>
+
+        <div class="description">
+          ${escapeHTML(description)}
+        </div>
+
+        <a
+          class="watch-button"
+          href="${watchSearch}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Where to Watch
+        </a>
+
+      </div>
+
+    `;
+
+
+    grid.appendChild(card);
+
+  }
+
+
+  /*
+  ==========================================
+  LOAD MORE
+  ==========================================
+  */
+
+  async function loadMoreMovies() {
+
+    if (currentPage >= totalPages) {
+
+      return;
+
+    }
+
+
+    currentPage++;
+
+
+    await getMovies(
+      currentQuery,
+      currentPage,
+      true
+    );
+
+  }
+
+
+  /*
+  ==========================================
+  STATUS MESSAGE
+  ==========================================
+  */
+
+  function showStatus(message) {
+
+    const status =
+      document.getElementById("status");
+
+    status.style.display =
+      "block";
+
+    status.textContent =
+      message;
+
+  }
+
+
+  /*
+  ==========================================
+  SECURITY HELPER
+  ==========================================
+  */
+
+  function escapeHTML(text) {
+
+    return String(text)
+
+      .replaceAll("&", "&amp;")
+
+      .replaceAll("<", "&lt;")
+
+      .replaceAll(">", "&gt;")
+
+      .replaceAll('"', "&quot;")
+
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  /*
+  ==========================================
+  PRESS ENTER TO SEARCH
+  ==========================================
+  */
+
+  document
+    .getElementById("searchInput")
+    .addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+
+          searchMovies();
+
+        }
+
+      }
+    );
+
+</script>
+
+</body>
+</html>
