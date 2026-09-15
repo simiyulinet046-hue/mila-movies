@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mila Movies</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b0b0f;
+    color: white;
+}
+
+header {
+    padding: 20px;
+    background: #12121a;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.logo span {
+    color: #e50914;
+}
+
+.search {
+    display: flex;
+    max-width: 600px;
+    margin: auto;
+}
+
+.search input {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    outline: none;
+    border-radius: 8px 0 0 8px;
+    font-size: 16px;
+}
+
+.search button {
+    padding: 14px 18px;
+    border: none;
+    background: #e50914;
+    color: white;
+    font-weight: bold;
+    border-radius: 0 8px 8px 0;
+}
+
+.hero {
+    padding: 50px 20px;
+    text-align: center;
+    background: linear-gradient(180deg, #181822, #0b0b0f);
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #bbb;
+    font-size: 17px;
+}
+
+section {
+    padding: 25px 18px;
+}
+
+section h2 {
+    margin-bottom: 18px;
+}
+
+.movies {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.movie {
+    background: #17171f;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.movie:hover {
+    transform: scale(1.02);
+}
+
+.poster {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: #222;
+}
+
+.movie-info {
+    padding: 12px;
+}
+
+.movie-info h3 {
+    margin-bottom: 6px;
+}
+
+.movie-info p {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.watch {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #e50914;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.no-results {
+    text-align: center;
+    color: #aaa;
+    display: none;
+    padding: 30px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+@media (min-width: 700px) {
+    .movies {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .poster {
+        height: 300px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Mila <span>Movies</span> 🎬</div>
+
+    <div class="search">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for a movie..."
+            onkeyup="searchMovies()"
+        >
+        <button onclick="searchMovies()">🔍</button>
+    </div>
+</header>
+
+<div class="hero">
+    <h1>Welcome to Mila Movies</h1>
+    <p>Discover movies and find legitimate places to watch them.</p>
+</div>
+
+<section>
+    <h2>🎬 Movies</h2>
+
+    <div class="movies" id="movieList">
+
+        <div class="movie" data-title="Spider-Man">
+            <img
+                class="poster"
+                src="https://placehold.co/500x750/18181f/ffffff?text=Spider-Man"
+                alt="Spider-Man"
+            >
+
+            <div class="movie-info">
+                <h3>Spider-Man</h3>
+                <p>Action • Adventure</p>
+
+                <a
+                    class="watch"
+                    href="https://www.google.com/search?q=Spider-Man+where+to+watch"
+                    target="_blank"
+                >
+                    Where to Watch
+                </a>
+            </div>
+        </div>
+
+
+        <div class="movie" data-title="Black Panther">
+            <img
+                class="poster"
+                src="https://placehold.co/500x750/18181f/ffffff?text=Black+Panther"
+                alt="Black Panther"
+            >
+
+            <div class="movie-info">
+                <h3>Black Panther</h3>
+                <p>Action • Adventure</p>
+
+                <a
+                    class="watch"
+                    href="https://www.google.com/search?q=Black+Panther+where+to+watch"
+                    target="_blank"
+                >
+                    Where to Watch
+                </a>
+            </div>
+        </div>
+
+
+        <div class="movie" data-title="Avengers">
+            <img
+                class="poster"
+                src="https://placehold.co/500x750/18181f/ffffff?text=Avengers"
+                alt="Avengers"
+            >
+
+            <div class="movie-info">
+                <h3>Avengers</h3>
+                <p>Action • Superhero</p>
+
+                <a
+                    class="watch"
+                    href="https://www.google.com/search?q=Avengers+where+to+watch"
+                    target="_blank"
+                >
+                    Where to Watch
+                </a>
+            </div>
+        </div>
+
+
+        <div class="movie" data-title="The Lion King">
+            <img
+                class="poster"
+                src="https://placehold.co/500x750/18181f/ffffff?text=The+Lion+King"
+                alt="The Lion King"
+            >
+
+            <div class="movie-info">
+                <h3>The Lion King</h3>
+                <p>Animation • Adventure</p>
+
+                <a
+                    class="watch"
+                    href="https://www.google.com/search?q=The+Lion+King+where+to+watch"
+                    target="_blank"
+                >
+                    Where to Watch
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="no-results" id="noResults">
+        No movie found.
+    </div>
+</section>
+
+<footer>
+    © 2026 Mila Movies
+</footer>
+
+
+<script>
+
+function searchMovies() {
+
+    let input =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    let movies =
+        document.querySelectorAll(".movie");
+
+    let found = false;
+
+    movies.forEach(function(movie) {
+
+        let title =
+            movie.getAttribute("data-title")
+            .toLowerCase();
+
+        if (title.includes(input)) {
+            movie.style.display = "block";
+            found = true;
+        } else {
+            movie.style.display = "none";
+        }
+
+    });
+
+    document.getElementById("noResults").style.display =
+        found ? "none" : "block";
+}
+
+</script>
+
+</body>
+</html>
